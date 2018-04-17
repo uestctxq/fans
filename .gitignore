@@ -1,0 +1,4 @@
+project/conf/
+const.py
+.idea/
+*.pyc
