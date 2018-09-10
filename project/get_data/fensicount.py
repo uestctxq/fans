@@ -10,6 +10,9 @@ def get_fen_count_by_brand(**params):
     today = datetime.datetime.strptime(now, '%Y-%m-%d %H:%M:%S')
     r = requests.get(params['url'])
     soup = BeautifulSoup(r.text, "lxml")
+    while soup.find(id="followCount") is None:
+        r = requests.get(params['url'])
+        soup = BeautifulSoup(r.text, "lxml")
     count = soup.find(id="followCount").attrs['value']
-    db.session.add(FenSi(company= params['company'], count=count, updated=today))
+    db.session.add(FenSi(company= params['company'], count=count, updated=today, html=r.text))
     db.session.commit()
